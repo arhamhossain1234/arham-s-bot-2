@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Arham</title>
+    <style>
+        body { background-color: black; color: white; text-align: center; }
+        .chat-box { width: 60%; margin: auto; background: #333; padding: 20px; border-radius: 10px; }
+        .message { padding: 10px; margin: 5px; border-radius: 5px; }
+        .user { background: blue; }
+        .bot { background: purple; }
+    </style>
+</head>
+<body>
+    <h2>Chat with Arham</h2>
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const backendUrl = "https://your-app-name.onrender.com/chat";  // Replace with your Render URL
+
+        function sendMessage() {
+            const input = document.getElementById("user-input").value;
+            document.getElementById("chat-box").innerHTML += `<div class="message user">${input}</div>`;
+
+            fetch(backendUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("chat-box").innerHTML += `<div class="message bot">${data.bot}</div>`;
+            });
+        }
+    </script>
+</body>
+</html>
